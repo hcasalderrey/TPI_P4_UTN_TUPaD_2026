@@ -11,6 +11,7 @@ import ConfirmModal from '@/shared/ui/ConfirmModal'
 import { inputClass } from '@/shared/ui/Input'
 import Modal from '@/shared/ui/Modal'
 import { formatFecha, formatPrecio } from '@/shared/utils/format'
+import { useUsuarios } from '@/features/usuarios/hooks/useUsuarios'
 import DetallePedido from '../components/DetallePedido'
 import { useCambiarEstadoPedido, usePedidos } from '../hooks/usePedidos'
 import { ETIQUETA_ESTADO, TRANSICIONES } from '../types/pedido'
@@ -35,6 +36,12 @@ function AdminPedidosPage() {
   // El panel pide limit=100 y TanStack Table pagina del lado del cliente.
   const pedidos = usePedidos({ skip: 0, limit: 100, estado: estado || undefined })
   const cambiar = useCambiarEstadoPedido()
+  const usuarios = useUsuarios()
+  // id -> nombre de usuario, para mostrar quién hizo cada pedido.
+  const nombres = useMemo(
+    () => new Map((usuarios.data ?? []).map((u) => [u.id, u.username])),
+    [usuarios.data],
+  )
 
   async function avanzar(pedido: Pedido, nuevo: EstadoPedido) {
     setError(null)
@@ -52,7 +59,7 @@ function AdminPedidosPage() {
       {
         accessorKey: 'usuario_id',
         header: 'Cliente',
-        cell: ({ row }) => `Usuario ${row.original.usuario_id}`,
+        cell: ({ row }) => nombres.get(row.original.usuario_id) ?? `Usuario ${row.original.usuario_id}`,
       },
       {
         accessorKey: 'created_at',
@@ -111,7 +118,7 @@ function AdminPedidosPage() {
         },
       },
     ],
-    [cambiar.isPending],
+    [cambiar.isPending, nombres],
   )
 
   return (

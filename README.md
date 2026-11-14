@@ -9,7 +9,7 @@ Aplicación web para un negocio de comidas: los clientes se registran, recorren 
 
 ## Video de demostración
 
-**Enlace:** `https://<enlace-publico>` ← _completar con el link público del video_
+**Enlace:** https://youtu.be/NVQs5F-jswo
 
 Duración: 10 a 15 minutos. Contenido: presentación con cámara encendida, registro de un usuario, compra como cliente, gestión como administrador (categorías, productos, pedidos, usuarios) y cancelación de un pedido con restitución de stock.
 
