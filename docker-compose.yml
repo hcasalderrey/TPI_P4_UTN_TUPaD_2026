@@ -1,0 +1,17 @@
+# PostgreSQL 16 para desarrollo. Usuario, clave y base coinciden con el DATABASE_URL de
+# backend/.env.example. Si el puerto 5432 está ocupado: POSTGRES_PORT=5433 docker compose up -d
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: foodstore_tpi_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: foodstore_db
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - foodstore_tpi_pgdata:/var/lib/postgresql/data
+
+volumes:
+  foodstore_tpi_pgdata:
